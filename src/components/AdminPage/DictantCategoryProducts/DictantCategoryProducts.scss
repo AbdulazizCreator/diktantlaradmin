@@ -1,0 +1,19 @@
+.dictantCategoryProducts {
+  position: relative;
+  tr, td {
+    position: relative;
+  }
+  .admin-comments {
+    position: absolute;
+    top: 70px;
+    right: 0;
+  }
+  button {
+    text-align-last: right;
+  }
+  .comment-box span {
+    font-size: 14px;
+    width: 400px;
+    display: block;
+  }
+}

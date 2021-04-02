@@ -1,0 +1,100 @@
+.icon {
+   width: 25px;
+   height: 25px;
+   display: inline-block;
+   vertical-align: center; 
+
+   mask-size: 100%;
+   mask-repeat: no-repeat;
+   mask-position: center;
+
+   -webkit-mask-size: 100%;
+   -webkit-mask-repeat: no-repeat;
+   -webkit-mask-position: center;
+
+   background-color: rgba(0, 0, 0, 0.5);
+
+   &.icon-user {
+      mask-image: url(../../../assets/user.svg);
+      -webkit-mask-image: url(../../../assets/user.svg);
+   }
+}
+
+.admin-layout {
+   .admin-navbar {
+      height: 50px;
+      background-color: #eee;
+   }
+
+   .admin-content {
+      .admin-content-left {
+         width: 250px;
+         height: calc(100vh - 50px);
+         overflow-y: auto;
+         background-color: rgb(17, 182, 122);
+         padding: 10px 15px;
+
+         .user-img {
+            width: 50px;
+            height: 50px;
+            border-radius: 6px;
+            background-color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content:center;
+            margin-right: 15px;
+         }
+
+         h5 {
+            font-size: 16px;
+         }
+
+         p {
+            font-size: 12px;
+         }
+
+
+      }
+      .admin-content-right {
+         width: calc(100vw - 250px);
+         padding: 10px 15px;
+         overflow-y: auto;
+         height: calc(100vh - 50px)
+      }
+   }
+   .nav-link {
+      padding: 0.5rem 0rem;
+   }
+}
+
+.admin-menu {
+   a {
+      text-transform: uppercase;
+   }
+}
+
+.menu-close {
+   position: absolute;
+   left: 15px;
+   top: 10px;
+   cursor: pointer;
+   svg {
+      transition: 0.5s;
+   }
+}
+
+@media screen and (max-width: 768px) {
+   .admin-content-right-100 {
+      width: 100vw !important;
+   }
+   .menu-hidden {
+      position: absolute;
+      left: -250px;
+      transition: 0.5s;
+   }
+   .menu-visible {
+      position: absolute;
+      left: 0px;
+      transition: 0.5s;
+   }
+}

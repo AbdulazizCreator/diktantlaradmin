@@ -1,0 +1,109 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+p {
+  margin-bottom: 0 !important;
+}
+
+td p {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 170px;
+}
+
+.bookImg {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+}
+
+.action {
+  min-width: 100px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+hr {
+  margin-top: 0.5rem !important;
+  margin-bottom: 0.5rem !important;
+  border: 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.paginationBttns {
+  width: 80%;
+  height: 40px;
+  list-style: none;
+  display: flex;
+  justify-content: center;
+}
+
+.paginationBttns a {
+  padding: 10px 15px;
+  margin: 8px;
+  border-radius: 5px;
+  border: 1px solid #2b2eff;
+  color: #2b2eff;
+  cursor: pointer;
+}
+
+.paginationBttns a:hover {
+  color: white;
+  background-color: #2b2eff;
+}
+
+.paginationActive a {
+  color: white;
+  background-color: #2b2eff;
+}
+
+.paginationDisabled a {
+  color: grey;
+  background-color: grey;
+}
+
+.paginationDisabled a:hover {
+  color: grey;
+  background-color: grey;
+}
+
+.button-box {
+  display: flex;
+  justify-content: flex-end;
+}
+
+th:last-child,
+td:last-child {
+  text-align: right;
+}
+
+.avatar {
+  /* width: 50px; */
+  height: 50px;
+  display: flex;
+  height: 50px;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.avatar h4 {
+  text-transform: uppercase;
+  margin-top: 5px;
+}
+
+.active {
+  color: black;
+}
+
+.nav-link {
+  color: white;
+}
+
+a:hover {
+  color: black !important;
+  font-weight: 600
+}
