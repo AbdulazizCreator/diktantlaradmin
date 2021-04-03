@@ -29,6 +29,8 @@ import { MdEdit, MdDelete } from "react-icons/md";
 import AudioList from "./AudioList";
 import CreatorList from "./CreatorList";
 import TextItem from "./TextItem";
+// import { CKEditor } from "@ckeditor/ckeditor5-react";
+// import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
 class AdminGuide extends Component {
   componentDidMount() {
@@ -39,9 +41,9 @@ class AdminGuide extends Component {
     super(props);
     this.state = {
       pageNumber: 0,
-      audioList: [<AudioList num={0} />],
-      creatorList: [<CreatorList num={0} />],
-      textList: [<TextItem num={0} />],
+      audioList: [<AudioList num={0} value={{}} />],
+      creatorList: [<CreatorList num={0} value={{}} />],
+      textList: [<TextItem num={0} value={{}} />],
       counterAudio: 1,
       counterCreator: 1,
       counterText: 1,
@@ -58,10 +60,10 @@ class AdminGuide extends Component {
       });
     };
     const submitImage = (info) => {
-      this.props.saveFile(info.file.originFileObj, "image");
+      this.props.saveFile(info.file.originFileObj, "image", g.guideAudio);
     };
     const submitFile = (info) => {
-      this.props.saveFile(info.file.originFileObj, "file");
+      this.props.saveFile(info.file.originFileObj, "file", g.guideAudio);
     };
     const saveGuide = (event, values) => {
       g.selectedGuide
@@ -102,7 +104,7 @@ class AdminGuide extends Component {
         <div className="adminGuide">
           <div className="menu-name d-flex justify-content-between">
             <div>
-              <h3>Qo'llanmalar</h3>
+              <h3>QO'LLANMALAR</h3>
             </div>
             <div>
               <Button
@@ -176,6 +178,35 @@ class AdminGuide extends Component {
                                 selectedId: item.id,
                               });
                               changeModal();
+                              this.setState({
+                                audioList: item.audioPayloadList.map(
+                                  (item2, index) => (
+                                    <AudioList
+                                      num={index}
+                                      key={index}
+                                      value={item2}
+                                    />
+                                  )
+                                ),
+                                textList: item.textContentPayloadList.map(
+                                  (item2, index) => (
+                                    <TextItem
+                                      num={index}
+                                      key={index}
+                                      value={item2}
+                                    />
+                                  )
+                                ),
+                                creatorList: item.creatorPayloadList.map(
+                                  (item2, index) => (
+                                    <CreatorList
+                                      num={index}
+                                      key={index}
+                                      value={item2}
+                                    />
+                                  )
+                                ),
+                              });
                             }}
                           >
                             <MdEdit />
@@ -297,6 +328,17 @@ class AdminGuide extends Component {
                 <AvGroup>
                   <Label htmlFor="about">Qo'llanma haqida</Label>
                   <AvInput type="textarea" name="about" id="about" required />
+                  {/*                   <CKEditor
+                    editor={ClassicEditor}
+                    config={{ resize_minHeight: 500 }}
+                    onReady={(editor) => {
+                      console.log("Editor is ready to use!", editor);
+                    }}
+                    onChange={(event, editor) => {
+                      const data = editor.getData();
+                      console.log({ event, editor, data });
+                    }}
+                  ></CKEditor> */}
                   <AvFeedback>To'ldirilmagan</AvFeedback>
                 </AvGroup>
                 <AvGroup>
@@ -310,126 +352,6 @@ class AdminGuide extends Component {
                   </AvInput>
                   <AvFeedback>To'ldirilmagan</AvFeedback>
                 </AvGroup>
-                <hr />
-                <div className="audio-box">
-                  <div className="label-box">
-                    <span>Audiolar ro'yxati</span>
-                    <span
-                      onClick={() => {
-                        this.props.updateState({
-                          orderNumber: g.orderNumber + 1,
-                        });
-                        this.setState({
-                          counterAudio: this.state.counterAudio + 1,
-                        });
-                        const audioList = this.state.audioList;
-                        audioList.splice(
-                          0,
-                          0,
-                          <AudioList num={this.state.counterAuido} />
-                        );
-                        this.setState({
-                          audioList: audioList,
-                        });
-                      }}
-                    >
-                      +
-                    </span>
-                  </div>
-                  <div className="audioList">
-                    {g.selectedGuide
-                      ? this.state.audioList.map((item, index) => (
-                          <AudioList
-                            num={index}
-                            key={index}
-                            value={g.selectedGuide.audioPayloadList[index]}
-                          />
-                        ))
-                      : this.state.audioList.map((item, index) => (
-                          <AudioList num={index} key={index} value={{}} />
-                        ))}
-                  </div>
-                </div>
-                <hr />
-                <div className="text-box">
-                  <div className="label-box">
-                    <span>Qo'llanma haqidagi malumotlar</span>
-                    <span
-                      onClick={() => {
-                        this.props.updateState({
-                          orderNumber: g.orderNumber + 1,
-                        });
-                        this.setState({
-                          counterText: this.state.counterText + 1,
-                        });
-                        const textList = this.state.textList;
-                        textList.splice(
-                          0,
-                          0,
-                          <TextItem num={this.state.counterText} />
-                        );
-                        this.setState({
-                          textList: textList,
-                        });
-                      }}
-                    >
-                      +
-                    </span>
-                  </div>
-                  <div className="textList">
-                    {g.selectedGuide
-                      ? this.state.textList.map((item, index) => (
-                          <TextItem
-                            num={index}
-                            key={index}
-                            value={
-                              g.selectedGuide.textContentPayloadList[index]
-                            }
-                          />
-                        ))
-                      : this.state.textList.map((item, index) => (
-                          <TextItem num={index} key={index} value={{}} />
-                        ))}
-                  </div>
-                </div>
-                <hr />
-                <div className="creator-box">
-                  <div className="label-box">
-                    <span>Yaratuvchilar ro'yxati</span>
-                    <span
-                      onClick={() => {
-                        this.setState({
-                          counterCreator: this.state.counterCreator + 1,
-                        });
-                        const creatorList = this.state.creatorList;
-                        creatorList.splice(
-                          0,
-                          0,
-                          <CreatorList num={this.state.counterCreator} />
-                        );
-                        this.setState({
-                          creatorList: creatorList,
-                        });
-                      }}
-                    >
-                      +
-                    </span>
-                  </div>
-                  <div className="creatorList">
-                    {g.selectedGuide
-                      ? this.state.creatorList.map((item, index) => (
-                          <CreatorList
-                            num={index}
-                            key={index}
-                            value={g.selectedGuide.creatorPayloadList[index]}
-                          />
-                        ))
-                      : this.state.creatorList.map((item, index) => (
-                          <CreatorList num={index} key={index} value={{}} />
-                        ))}
-                  </div>
-                </div>
-                <hr />
                 <AvField
                   name="isFavourite"
                   type="checkbox"
@@ -442,7 +364,9 @@ class AdminGuide extends Component {
                   }
                 />
               </ModalBody>
-              <ModalFooter>
+              <ModalFooter
+                style={{ position: "absolute", bottom: 0, left: 0, right: 0 }}
+              >
                 <Button type="submit" color="success">
                   Saqlash
                 </Button>
@@ -458,6 +382,105 @@ class AdminGuide extends Component {
                 </Button>
               </ModalFooter>
             </AvForm>
+            <ModalBody style={{ marginBottom: "70px" }}>
+              <hr />
+              <div className="audio-box">
+                <div className="label-box">
+                  <span>Audiolar ro'yxati</span>
+                  <span
+                    onClick={() => {
+                      this.props.updateState({
+                        orderNumber: g.orderNumber + 1,
+                      });
+                      this.setState({
+                        counterAudio: this.state.counterAudio + 1,
+                      });
+                      const audioList = this.state.audioList;
+                      audioList.splice(
+                        0,
+                        0,
+                        <AudioList num={this.state.counterAudio} value={{}} />
+                      );
+                      this.setState({
+                        audioList: audioList,
+                      });
+                    }}
+                  >
+                    +
+                  </span>
+                </div>
+                <div className="audioList">
+                  {g.selectedGuide
+                    ? this.state.audioList.map((item, index) => item)
+                    : this.state.audioList.map((item, index) => item)}
+                </div>
+              </div>
+              <hr />
+              <div className="text-box">
+                <div className="label-box">
+                  <span>Qo'llanma haqidagi malumotlar</span>
+                  <span
+                    onClick={() => {
+                      this.props.updateState({
+                        orderNumber: g.orderNumber + 1,
+                      });
+                      this.setState({
+                        counterText: this.state.counterText + 1,
+                      });
+                      const textList = this.state.textList;
+                      textList.splice(
+                        0,
+                        0,
+                        <TextItem num={this.state.counterText} value={{}} />
+                      );
+                      this.setState({
+                        textList: textList,
+                      });
+                    }}
+                  >
+                    +
+                  </span>
+                </div>
+                <div className="textList">
+                  {g.selectedGuide
+                    ? this.state.textList.map((item, index) => item)
+                    : this.state.textList.map((item, index) => item)}
+                </div>
+              </div>
+              <hr />
+              <div className="creator-box">
+                <div className="label-box">
+                  <span>Yaratuvchilar ro'yxati</span>
+                  <span
+                    onClick={() => {
+                      this.setState({
+                        counterCreator: this.state.counterCreator + 1,
+                      });
+                      const creatorList = this.state.creatorList;
+                      creatorList.splice(
+                        0,
+                        0,
+                        <CreatorList
+                          num={this.state.counterCreator}
+                          value={{}}
+                        />
+                      );
+                      this.setState({
+                        creatorList: creatorList,
+                      });
+                    }}
+                  >
+                    +
+                  </span>
+                </div>
+                <div className="creatorList">
+                  {g.selectedGuide
+                    ? this.state.creatorList.map((item, index) => item)
+                    : this.state.creatorList.map((item, index) => item)}
+                </div>
+              </div>
+              <hr />
+            </ModalBody>
           </Modal>
           <Modal isOpen={g.deleteModalOpen}>
             <ModalBody>

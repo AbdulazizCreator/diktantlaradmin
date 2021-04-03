@@ -1,10 +1,3 @@
-import {
-  AvFeedback,
-  AvField,
-  AvForm,
-  AvGroup,
-  AvInput,
-} from "availity-reactstrap-validation";
 import { useState } from "react";
 import { connect } from "react-redux";
 import { Button, Label } from "reactstrap";
@@ -18,6 +11,8 @@ const TextItem = ({
   textList,
   orderNumber,
 }) => {
+  const [buttonOpen, setButtonOpen] = useState(false);
+
   const [textItem, setTextItem] = useState(value);
   const saveText = (e) => {
     setTextItem({
@@ -25,33 +20,47 @@ const TextItem = ({
       [e.target.name]: e.target.value,
       orderNumber: orderNumber,
     });
+    setButtonOpen(false);
   };
 
   return (
-    <AvForm>
-      <AvGroup>
+    <div className="textItem">
+      <div className="form-group">
         <Label for="title">Mavzuni nomi</Label>
-        <AvInput onChange={saveText} name="title" id="title" required />
-        <AvFeedback>To'ldirilmagan</AvFeedback>
-      </AvGroup>
-      <AvGroup xs="12">
-        <AvField
+        <input
+          className="form-control"
+          onChange={saveText}
+          value={textItem.title}
+          name="title"
+          id="title"
+          required
+        />
+      </div>
+      <div className="form-group" xs="12">
+        <textarea
+          className="form-control"
+          type="textarea"
           onChange={saveText}
           name="content"
+          value={textItem.content}
           label="Malumotlarni kiriting"
           required
         />
-      </AvGroup>
+      </div>
       <div className="button-box">
         <Button
-          onClick={() => updateState({ textList: [...textList, textItem] })}
+          disabled={buttonOpen}
+          onClick={() => {
+            updateState({ textList: [...textList, textItem] });
+            setButtonOpen(true);
+          }}
           type="button"
           className="btn-success"
         >
           Save
         </Button>
       </div>
-    </AvForm>
+    </div>
   );
 };
 

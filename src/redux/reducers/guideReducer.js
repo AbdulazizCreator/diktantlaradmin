@@ -14,6 +14,7 @@ const initialState = {
   creatorList: [],
   textList: [],
   guideFile: "",
+  guideAudio: [],
   isLoading: false,
   orderNumber: 0,
 };

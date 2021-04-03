@@ -1,9 +1,3 @@
-import {
-  AvFeedback,
-  AvForm,
-  AvGroup,
-  AvInput,
-} from "availity-reactstrap-validation";
 import { useState } from "react";
 import { connect } from "react-redux";
 import { Button, Label } from "reactstrap";
@@ -16,65 +10,101 @@ const CreatorList = ({
   selectedGuide,
   creatorList,
 }) => {
+  const [buttonOpen, setButtonOpen] = useState(false);
   const [creatorItem, setCreatorItem] = useState(value);
   const saveCreator = (e) => {
     setCreatorItem({ ...creatorItem, [e.target.name]: e.target.value });
+    setButtonOpen(false);
   };
 
   return (
-    <AvForm>
-      <AvGroup>
+    <div className="creatorList">
+      <div className="form-group">
         <Label for="name">Ism Familiyasi</Label>
-        <AvInput onChange={saveCreator} name="name" id="name" required />
-        <AvFeedback>To'ldirilmagan</AvFeedback>
-      </AvGroup>
-      <AvGroup xs="12">
+        <input
+          className="form-control"
+          onChange={saveCreator}
+          name="name"
+          id="name"
+          required
+          value={creatorItem.name}
+        />
+      </div>
+      <div className="form-group" xs="12">
         <Label>Yaratuvchi haqida </Label>
-        <AvInput onChange={saveCreator} name="description" required />
-        <AvFeedback>To'ldirilmagan</AvFeedback>
-      </AvGroup>
-      <AvGroup xs="12">
+        <input
+          className="form-control"
+          onChange={saveCreator}
+          name="description"
+          required
+          value={creatorItem.description}
+        />
+      </div>
+      <div className="form-group" xs="12">
         <Label>Ish o'rni </Label>
-        <AvInput onChange={saveCreator} name="jobPosition" required />
-        <AvFeedback>To'ldirilmagan</AvFeedback>
-      </AvGroup>
-      <AvGroup xs="12">
+        <input
+          className="form-control"
+          onChange={saveCreator}
+          name="jobPosition"
+          required
+          value={creatorItem.jobPosition}
+        />
+      </div>
+      <div className="form-group" xs="12">
         <Label>Facebook manzili </Label>
-        <AvInput
+        <input
+          className="form-control"
           onChange={saveCreator}
           type="text"
           name="facebookUrl"
           required
+          value={creatorItem.facebookUrl}
         />
-        <AvFeedback>To'ldirilmagan</AvFeedback>
-      </AvGroup>
-      <AvGroup xs="12">
+      </div>
+      <div className="form-group" xs="12">
         <Label>LinkedLn manzili </Label>
-        <AvInput onChange={saveCreator} name="linkedLnUrl" required />
-        <AvFeedback>To'ldirilmagan</AvFeedback>
-      </AvGroup>
-      <AvGroup xs="12">
+        <input
+          className="form-control"
+          onChange={saveCreator}
+          name="linkedLnUrl"
+          required
+          value={creatorItem.linkedLnUrl}
+        />
+      </div>
+      <div className="form-group" xs="12">
         <Label>Twitter manzili </Label>
-        <AvInput onChange={saveCreator} name="twitterUrl" required />
-        <AvFeedback>To'ldirilmagan</AvFeedback>
-      </AvGroup>
-      <AvGroup xs="12">
+        <input
+          className="form-control"
+          onChange={saveCreator}
+          name="twitterUrl"
+          required
+          value={creatorItem.twitterUrl}
+        />
+      </div>
+      <div className="form-group" xs="12">
         <Label>Youtube manzili </Label>
-        <AvInput onChange={saveCreator} name="youtubeUrl" required />
-        <AvFeedback>To'ldirilmagan</AvFeedback>
-      </AvGroup>
+        <input
+          className="form-control"
+          onChange={saveCreator}
+          name="youtubeUrl"
+          required
+          value={creatorItem.youtubeUrl}
+        />
+      </div>
       <div className="button-box">
         <Button
           className="btn-success"
-          onClick={() =>
-            updateState({ creatorList: [...creatorList, creatorItem] })
-          }
+          disabled={buttonOpen}
+          onClick={() => {
+            updateState({ creatorList: [...creatorList, creatorItem] });
+            setButtonOpen(true);
+          }}
           type="button"
         >
           Save
         </Button>
       </div>
-    </AvForm>
+    </div>
   );
 };
 

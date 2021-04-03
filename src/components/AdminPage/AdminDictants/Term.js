@@ -1,4 +1,5 @@
 import { AvFeedback, AvGroup } from "availity-reactstrap-validation";
+
 import { useState } from "react";
 import { connect } from "react-redux";
 import { Button } from "reactstrap";
@@ -15,12 +16,15 @@ const Term = ({
   term4,
 }) => {
   const [term, setTerm] = useState(value);
+  const [buttonOpen, setButtonOpen] = useState(false);
   console.log(term);
   const inputTermName = (e) => {
     setTerm({ ...term, title: e.target.value });
+    setButtonOpen(false);
   };
   const inputTermAbout = (e) => {
     setTerm({ ...term, description: e.target.value });
+    setButtonOpen(false);
   };
 
   const fun = (a) => {
@@ -41,32 +45,41 @@ const Term = ({
   return (
     <div className={`term${termNum}-term${num}`}>
       <AvGroup>
-        <label for='title'>Mavzu nomi</label>
+        <label for="title">Mavzu nomi</label>
         <input
           value={term.title}
           className="form-control"
           type="text"
-          name='title'
-          id='title'
+          name="title"
+          id="title"
           onChange={inputTermName}
           required
         />
         <AvFeedback>To'ldirilmagan</AvFeedback>
       </AvGroup>
       <AvGroup>
-        <label for='description'>Mavzu haqida batafsil</label>
+        <label for="description">Mavzu haqida batafsil</label>
         <textarea
           value={term.description}
           className="form-control"
-          name='description'
-          id='description'
+          name="description"
+          id="description"
           onChange={inputTermAbout}
           required
         />
         <AvFeedback>To'ldirilmagan</AvFeedback>
       </AvGroup>
       <div className="button-box">
-        <Button className='btn-success' onClick={() => updateState(fun(termNum))}>Save</Button>
+        <Button
+          className="btn-success"
+          disabled={buttonOpen}
+          onClick={() => {
+            updateState(fun(termNum));
+            setButtonOpen(true);
+          }}
+        >
+          Save
+        </Button>
       </div>
     </div>
   );

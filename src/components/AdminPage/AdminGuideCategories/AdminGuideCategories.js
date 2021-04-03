@@ -82,7 +82,7 @@ class AdminGuideCategories extends Component {
                         className="btn btn-primary mr-3"
                         onClick={() => {
                           this.props.updateState({
-                            selectedBookCategory: item,
+                            selectedGuideCategory: item,
                             selectedId: item.id,
                           });
                           changeModal();
@@ -108,7 +108,7 @@ class AdminGuideCategories extends Component {
               ))}
             </tbody>
           </table>
-          <Modal isOpen={bk.modalOpen}>
+          <Modal isOpen={bk.modalOpen} >
             <AvForm
               onValidSubmit={saveGuideCategory}
               model={bk.selectedGuideCategory}

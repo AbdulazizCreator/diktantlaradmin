@@ -10,7 +10,7 @@ export function updateState(data) {
   };
 }
 
-export function saveFile(data, check) {
+export function saveFile(data, check, guideAudio) {
   let file = new FormData();
   file.append("multipartFile", data);
   return function (dispatch) {
@@ -24,9 +24,10 @@ export function saveFile(data, check) {
       data: file,
     }).then((res) => {
       if (res.status === 200) {
-        check === "image"
-          ? dispatch(updateState({ guideImage: res.data }))
-          : dispatch(updateState({ guideFile: res.data }));
+        if (check === "image") dispatch(updateState({ guideImage: res.data }));
+        if (check === "file") dispatch(updateState({ guideFile: res.data }));
+        if (check === "audio") dispatch(updateState({ guideAudio: [...guideAudio, res.data] }));
+        console.log(res.data);
       } else {
         toast.error("Xatolik");
       }
@@ -57,7 +58,6 @@ export function saveAudio(data, check) {
     });
   };
 }
-
 
 export const addGuide = (data) => {
   return (dispatch) => {

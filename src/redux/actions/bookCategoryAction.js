@@ -12,6 +12,7 @@ export function updateState(data) {
 
 export function addBookCategory(data) {
   return function (dispatch) {
+    console.log(data);
     axios({
       url: API_PATH + "admin/book/category/",
       method: "post",
@@ -21,6 +22,7 @@ export function addBookCategory(data) {
       },
       data,
     }).then((res) => {
+      console.log(res);
       if (res.status === 200) {
         toast.success(res.data.message);
         dispatch({
@@ -29,7 +31,7 @@ export function addBookCategory(data) {
         });
         dispatch(getBookCategories());
       } else {
-        toast.error(res.data.message);
+        toast.error("Xato");
       }
     });
   };

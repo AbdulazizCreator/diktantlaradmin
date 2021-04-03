@@ -105,7 +105,7 @@ td:last-child {
 
 a:hover {
   color: black !important;
-  font-weight: 600
+  font-weight: 600;
 }
 
 .form-check {
@@ -128,8 +128,17 @@ a:hover {
   font-size: 20px;
 }
 
-.menu-name button {
+.menu-name button, .nav-link button {
   text-transform: uppercase;
 }
 
-/* 2
+/* .all-products {
+  padding-top: 50px;
+}
+
+.menu-name {
+  position: absolute;
+  right: 0;
+  left: 0;
+  top: 0;
+} */

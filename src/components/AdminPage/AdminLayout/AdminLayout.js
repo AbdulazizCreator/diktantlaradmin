@@ -9,7 +9,7 @@ const AdminLayout = (props) => {
   const changeModal = () => {
     setOpen({ open: !open });
   };
-  
+
   return (
     <div className="admin-layout">
       <div className="admin-navbar">
@@ -135,7 +135,7 @@ const AdminLayout = (props) => {
                 }}
                 exact={true}
               >
-                Qo'llanmalar
+                QO'LLANMALAR
               </NavLink>
             </li>
             <li className="nav-item admin-menu">
@@ -155,13 +155,8 @@ const AdminLayout = (props) => {
             <hr />
             <li className="nav-item admin-menu mt-4">
               <button
-                style={{ border: "none", background: "none" }}
                 onClick={changeModal}
-                className="nav-link"
-                activeStyle={{
-                  fontWeight: "600",
-                  color: "rgba(0, 0, 0)",
-                }}
+                className="btn btn-danger"
                 exact={true}
               >
                 Chiqish
