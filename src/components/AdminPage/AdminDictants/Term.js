@@ -66,7 +66,7 @@ const Term = ({
         <AvFeedback>To'ldirilmagan</AvFeedback>
       </AvGroup>
       <div className="button-box">
-        <Button onClick={() => updateState(fun(termNum))}>Save</Button>
+        <Button className='btn-success' onClick={() => updateState(fun(termNum))}>Save</Button>
       </div>
     </div>
   );

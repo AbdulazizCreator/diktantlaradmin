@@ -107,3 +107,29 @@ a:hover {
   color: black !important;
   font-weight: 600
 }
+
+.form-check {
+  align-items: center;
+  display: flex !important;
+  padding-left: 0rem !important;
+}
+
+.form-check input {
+  width: 25px;
+  height: 25px;
+  margin-right: 10px;
+  position: static;
+  margin-top: 0rem;
+  margin-left: 0rem;
+}
+
+.form-check label {
+  margin-bottom: 0rem;
+  font-size: 20px;
+}
+
+.menu-name button {
+  text-transform: uppercase;
+}
+
+/* 2

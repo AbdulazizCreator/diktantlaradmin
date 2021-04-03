@@ -123,8 +123,8 @@ class AdminDictants extends Component {
     const pageCount = d.dictants ? d.dictants.totalPages : 0;
     return (
       <AdminLayout>
-        <div className="adminDictants">
-          <div className="d-flex justify-content-between">
+        <div className="adminDictants ">
+          <div className="menu-name d-flex justify-content-between">
             <div>
               <h3>DIKTANTLAR</h3>
             </div>
@@ -152,87 +152,89 @@ class AdminDictants extends Component {
               </Button>
             </div>
           </div>
-          <table className="table table-striped table-hover mt-3">
-            <thead>
-              <tr>
-                <th>Rasmi</th>
-                <th>Diktant nomi</th>
-                <th>Kategoriya</th>
-                <th>Izoh</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {d.dictants ? (
-                d.dictants.content.map((item) => (
-                  <tr key={item.id}>
-                    <td>
-                      {d.isLoading ? (
-                        <span className="spinner-border spinner-border-sm mr-3"></span>
-                      ) : (
-                        <img
-                          className="bookImg"
-                          src={item.imageUrl}
-                          alt={item.imageUrl}
-                        />
-                      )}
-                    </td>
-                    <td>
-                      <p>{item.title}</p>
-                    </td>
-                    <td>
-                      <p>{item.categoryName}</p>
-                    </td>
-                    <td>
-                      <p>{item.description}</p>
-                    </td>
-                    <td>
-                      <div className="action">
-                        <button
-                          type="button"
-                          className="btn btn-primary mr-2"
-                          onClick={() => {
-                            this.props.updateState({
-                              selectedDictant: item,
-                            });
-                            this.setState({
-                              chorak1: item.term1.map((item, index) => (
-                                <Term termNum={1} num={index} value={item} />
-                              )),
-                              chorak2: item.term2.map((item, index) => (
-                                <Term termNum={2} num={index} value={item} />
-                              )),
-                              chorak3: item.term3.map((item, index) => (
-                                <Term termNum={3} num={index} value={item} />
-                              )),
-                              chorak4: item.term4.map((item, index) => (
-                                <Term termNum={4} num={index} value={item} />
-                              )),
-                            });
-                            changeModal();
-                          }}
-                        >
-                          <MdEdit />
-                        </button>
-                        <button
-                          type="button"
-                          className="btn btn-danger"
-                          onClick={() => {
-                            this.props.updateState({ selectedDictant: item });
-                            changeDeleteModal();
-                          }}
-                        >
-                          <MdDelete />
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))
-              ) : (
-                <tr></tr>
-              )}
-            </tbody>
-          </table>
+          <div className="all-products">
+            <table className="table table-striped table-hover mt-3">
+              <thead>
+                <tr>
+                  <th>Rasmi</th>
+                  <th>Diktant nomi</th>
+                  <th>Kategoriya</th>
+                  <th>Izoh</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {d.dictants ? (
+                  d.dictants.content.map((item) => (
+                    <tr key={item.id}>
+                      <td>
+                        {d.isLoading ? (
+                          <span className="spinner-border spinner-border-sm mr-3"></span>
+                        ) : (
+                          <img
+                            className="bookImg"
+                            src={item.imageUrl}
+                            alt={item.imageUrl}
+                          />
+                        )}
+                      </td>
+                      <td>
+                        <p>{item.title}</p>
+                      </td>
+                      <td>
+                        <p>{item.categoryName}</p>
+                      </td>
+                      <td>
+                        <p>{item.description}</p>
+                      </td>
+                      <td>
+                        <div className="action">
+                          <button
+                            type="button"
+                            className="btn btn-primary mr-2"
+                            onClick={() => {
+                              this.props.updateState({
+                                selectedDictant: item,
+                              });
+                              this.setState({
+                                chorak1: item.term1.map((item, index) => (
+                                  <Term termNum={1} num={index} value={item} />
+                                )),
+                                chorak2: item.term2.map((item, index) => (
+                                  <Term termNum={2} num={index} value={item} />
+                                )),
+                                chorak3: item.term3.map((item, index) => (
+                                  <Term termNum={3} num={index} value={item} />
+                                )),
+                                chorak4: item.term4.map((item, index) => (
+                                  <Term termNum={4} num={index} value={item} />
+                                )),
+                              });
+                              changeModal();
+                            }}
+                          >
+                            <MdEdit />
+                          </button>
+                          <button
+                            type="button"
+                            className="btn btn-danger"
+                            onClick={() => {
+                              this.props.updateState({ selectedDictant: item });
+                              changeDeleteModal();
+                            }}
+                          >
+                            <MdDelete />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr></tr>
+                )}
+              </tbody>
+            </table>
+          </div>
           {(d.dictants ? d.dictants.totalElements <= d.dictants.size : true) ? (
             ""
           ) : (
@@ -324,9 +326,21 @@ class AdminDictants extends Component {
                   />
                   <AvFeedback>To'ldirilmagan</AvFeedback>
                 </AvGroup>
-                <div className="chorak1">
+                <AvGroup>
+                  <Label>Kategoriyani tanlang</Label>
+                  <AvInput required type="select" name="essayCategoryId">
+                    {this.props.dictantCategories.map((item) => (
+                      <option key={item.id} value={item.id}>
+                        {item.name}
+                      </option>
+                    ))}
+                  </AvInput>
+                  <AvFeedback>Tanlanmagan</AvFeedback>
+                </AvGroup>
+                <hr />
+                <div className="chorak">
                   <div className="label-box">
-                    <Label htmlFor="term1">1-chorak</Label>
+                    <span>1-chorak</span>
                     <span
                       onClick={() => {
                         this.setState({ counter1: this.state.counter1 + 1 });
@@ -351,9 +365,10 @@ class AdminDictants extends Component {
                       : this.state.chorak1.map((item, index) => item)}
                   </div>
                 </div>
-                <div className="chorak2">
+                <hr />
+                <div className="chorak">
                   <div className="label-box">
-                    <Label htmlFor="term2">2-chorak</Label>
+                    <span>2-chorak</span>
                     <span
                       onClick={() => {
                         this.setState({ counter2: this.state.counter2 + 1 });
@@ -378,9 +393,10 @@ class AdminDictants extends Component {
                       : this.state.chorak2.map((item, index) => item)}
                   </div>
                 </div>
-                <div className="chorak3">
+                <hr />
+                <div className="chorak">
                   <div className="label-box">
-                    <Label htmlFor="term3">3-chorak</Label>
+                    <span>3-chorak</span>
                     <span
                       onClick={() => {
                         this.setState({ counter3: this.state.counter3 + 1 });
@@ -405,9 +421,10 @@ class AdminDictants extends Component {
                       : this.state.chorak3.map((item, index) => item)}
                   </div>
                 </div>
-                <div className="chorak4">
+                <hr />
+                <div className="chorak">
                   <div className="label-box">
-                    <Label htmlFor="term4">4-chorak</Label>
+                    <span>4-chorak</span>
                     <span
                       onClick={() => {
                         this.setState({ counter4: this.state.counter4 + 1 });
@@ -432,22 +449,11 @@ class AdminDictants extends Component {
                       : this.state.chorak4.map((item, index) => item)}
                   </div>
                 </div>
-                <AvField
-                  required
-                  type="select"
-                  name="essayCategoryId"
-                  label="Kategoriyani tanlang"
-                >
-                  {this.props.dictantCategories.map((item) => (
-                    <option key={item.id} value={item.id}>
-                      {item.name}
-                    </option>
-                  ))}
-                </AvField>
+                <hr />
                 <AvField
                   name="isFavourite"
                   type="checkbox"
-                  label="IsFavourite"
+                  label="Sevimlimi ?"
                   value={d.isFavourite}
                   onChange={() =>
                     this.props.updateState({
@@ -466,6 +472,7 @@ class AdminDictants extends Component {
                     this.props.updateState({ selectedDictant: null });
                     changeModal();
                   }}
+                  color="danger"
                 >
                   Bekor qilish
                 </Button>

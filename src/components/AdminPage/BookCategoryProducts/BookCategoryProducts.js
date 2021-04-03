@@ -312,7 +312,7 @@ class BookCategoryProducts extends Component {
                 <Button type="submit" color="success">
                   Saqlash
                 </Button>
-                <Button type="button" onClick={changeModal}>
+                <Button type="button" onClick={changeModal} color="danger">
                   Bekor qilish
                 </Button>
               </ModalFooter>

@@ -38,8 +38,8 @@ class AdminGuideCategories extends Component {
     };
     return (
       <AdminLayout>
-        <div className="admiGuideCategories">
-          <div className="d-flex justify-content-between">
+        <div className="admiGuideCategories ">
+          <div className="menu-name d-flex justify-content-between">
             <div>
               <h3>QO'LLANMALAR KATEGORIYALARI</h3>
             </div>
@@ -125,7 +125,7 @@ class AdminGuideCategories extends Component {
                 <Button type="submit" color="success">
                   Saqlash
                 </Button>
-                <Button type="button" onClick={changeModal}>
+                <Button type="button" color="danger" onClick={changeModal}>
                   Bekor qilish
                 </Button>
               </ModalFooter>

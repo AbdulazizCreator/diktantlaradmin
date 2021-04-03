@@ -93,7 +93,7 @@ class AdminDictants extends Component {
     return (
       <AdminLayout>
         <div className="dictantCategoryProducts">
-         <table className="table table-striped table-hover mt-3">
+          <table className="table table-striped table-hover mt-3">
             <thead>
               <tr>
                 <th>Rasmi</th>
@@ -375,7 +375,7 @@ class AdminDictants extends Component {
                 <Button type="submit" color="success">
                   Saqlash
                 </Button>
-                <Button type="button" onClick={changeModal}>
+                <Button type="button" onClick={changeModal} color="danger">
                   Bekor qilish
                 </Button>
               </ModalFooter>

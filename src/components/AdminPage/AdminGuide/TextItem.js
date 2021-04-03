@@ -10,10 +10,21 @@ import { connect } from "react-redux";
 import { Button, Label } from "reactstrap";
 import { updateState } from "../../../redux/actions/guideAction";
 
-const TextItem = ({ num, updateState, value, selectedGuide, textList }) => {
+const TextItem = ({
+  num,
+  updateState,
+  value,
+  selectedGuide,
+  textList,
+  orderNumber,
+}) => {
   const [textItem, setTextItem] = useState(value);
   const saveText = (e) => {
-    setTextItem({ ...textList, [e.target.name]: e.target.value });
+    setTextItem({
+      ...textItem,
+      [e.target.name]: e.target.value,
+      orderNumber: orderNumber,
+    });
   };
 
   return (
@@ -26,17 +37,20 @@ const TextItem = ({ num, updateState, value, selectedGuide, textList }) => {
       <AvGroup xs="12">
         <AvField
           onChange={saveText}
-          name="description"
+          name="content"
           label="Malumotlarni kiriting"
           required
         />
       </AvGroup>
-      <Button
-        onClick={() => updateState({ textList: [...textList, textItem] })}
-        type="button"
-      >
-        Save
-      </Button>
+      <div className="button-box">
+        <Button
+          onClick={() => updateState({ textList: [...textList, textItem] })}
+          type="button"
+          className="btn-success"
+        >
+          Save
+        </Button>
+      </div>
     </AvForm>
   );
 };
@@ -45,6 +59,7 @@ const mapStateToProps = (state) => {
   return {
     selectedGuide: state.guides.selectedGuide,
     textList: state.guides.textList,
+    orderNumber: state.guides.orderNumber,
   };
 };
 

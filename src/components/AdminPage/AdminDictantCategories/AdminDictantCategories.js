@@ -37,7 +37,7 @@ export class AdminBookCategories extends Component {
     return (
       <AdminLayout>
         <div className="adminBookCategories">
-          <div className="d-flex justify-content-between">
+          <div className="menu-name d-flex justify-content-between">
             <div>
               <h3>DIKTANT KATEGORIYALARI</h3>
             </div>
@@ -123,7 +123,7 @@ export class AdminBookCategories extends Component {
                 <Button type="submit" color="success">
                   Saqlash
                 </Button>
-                <Button type="button" onClick={changeModal}>
+                <Button type="button" color="danger" onClick={changeModal}>
                   Bekor qilish
                 </Button>
               </ModalFooter>

@@ -84,8 +84,8 @@ class AdminLibrary extends Component {
     const pageCount = b.books ? b.books.totalPages : 0;
     return (
       <AdminLayout>
-        <div className="adminLibrary">
-          <div className="d-flex justify-content-between">
+        <div className="adminLibrary ">
+          <div className="menu-name d-flex justify-content-between">
             <div>
               <h3>KUTUBXONA</h3>
             </div>
@@ -101,88 +101,90 @@ class AdminLibrary extends Component {
               </Button>
             </div>
           </div>
-          <table className="table table-striped table-hover mt-3">
-            <thead>
-              <tr>
-                <th>Rasm</th>
-                <th>Nomi</th>
-                <th>Kategoriya</th>
-                <th>Haqida</th>
-                <th>Kommentariyalar</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {b.books ? (
-                b.books.content.map((item) => (
-                  <tr key={item.id}>
-                    <td>
-                      {b.isLoading ? (
-                        <span className="spinner-border spinner-border-sm mr-3"></span>
-                      ) : (
-                        <img
-                          className="bookImg"
-                          src={item.imageUrl}
-                          alt={item.imageUrl}
-                        />
-                      )}
-                    </td>
-                    <td>
-                      <p>{item.title}</p>
-                    </td>
-                    <td>
-                      <p>{item.categoryName}</p>
-                    </td>
-                    <td>
-                      <p>{item.description}</p>
-                    </td>
+          <div className="all-products">
+            <table className="table table-striped table-hover mt-3">
+              <thead>
+                <tr>
+                  <th>Rasm</th>
+                  <th>Nomi</th>
+                  <th>Kategoriya</th>
+                  <th>Haqida</th>
+                  <th>Kommentariyalar</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {b.books ? (
+                  b.books.content.map((item) => (
+                    <tr key={item.id}>
+                      <td>
+                        {b.isLoading ? (
+                          <span className="spinner-border spinner-border-sm mr-3"></span>
+                        ) : (
+                          <img
+                            className="bookImg"
+                            src={item.imageUrl}
+                            alt={item.imageUrl}
+                          />
+                        )}
+                      </td>
+                      <td>
+                        <p>{item.title}</p>
+                      </td>
+                      <td>
+                        <p>{item.categoryName}</p>
+                      </td>
+                      <td>
+                        <p>{item.description}</p>
+                      </td>
 
-                    <td>
-                      <p>
-                        <Link
-                          to="/admin/library/one"
-                          type="button"
-                          className="btn btn-primary"
-                        >
-                          Kommentariyalar{" "}
-                          <span className="badge badge-light">4</span>
-                        </Link>
-                      </p>
-                    </td>
-                    <td>
-                      <div className="action">
-                        <button
-                          type="button"
-                          className="btn btn-primary mr-2"
-                          onClick={() => {
-                            this.props.updateState({
-                              selectedBook: item,
-                              selectedId: item.id,
-                            });
-                            changeModal();
-                          }}
-                        >
-                          <MdEdit />
-                        </button>
-                        <button
-                          type="button"
-                          className="btn btn-danger"
-                          onClick={() => {
-                            this.props.updateState({ selectedBook: item });
-                            changeDeleteModal();
-                          }}
-                        >
-                          <MdDelete />
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))
-              ) : (
-                <tr></tr>
-              )}
-            </tbody>
-          </table>
+                      <td>
+                        <p>
+                          <Link
+                            to="/admin/library/one"
+                            type="button"
+                            className="btn btn-primary"
+                          >
+                            Kommentariyalar{" "}
+                            <span className="badge badge-light">4</span>
+                          </Link>
+                        </p>
+                      </td>
+                      <td>
+                        <div className="action">
+                          <button
+                            type="button"
+                            className="btn btn-primary mr-2"
+                            onClick={() => {
+                              this.props.updateState({
+                                selectedBook: item,
+                                selectedId: item.id,
+                              });
+                              changeModal();
+                            }}
+                          >
+                            <MdEdit />
+                          </button>
+                          <button
+                            type="button"
+                            className="btn btn-danger"
+                            onClick={() => {
+                              this.props.updateState({ selectedBook: item });
+                              changeDeleteModal();
+                            }}
+                          >
+                            <MdDelete />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr></tr>
+                )}
+              </tbody>
+            </table>
+          </div>
           {(b.books ? b.books.totalElements <= b.books.size : true) ? (
             ""
           ) : (
@@ -312,7 +314,7 @@ class AdminLibrary extends Component {
                 <AvField
                   name="isFavourite"
                   type="checkbox"
-                  label="IsFavourite"
+                  label="Sevimlimi ?"
                   value={b.isFavourite}
                   onChange={() =>
                     this.props.updateState({
@@ -331,6 +333,7 @@ class AdminLibrary extends Component {
                     this.props.updateState({ selectedBook: null });
                     changeModal();
                   }}
+                  color="danger"
                 >
                   Bekor qilish
                 </Button>

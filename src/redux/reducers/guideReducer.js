@@ -8,13 +8,14 @@ const initialState = {
   selectedId: null,
   guides: null,
   categoryGuides: null,
-  bookImage: "",
+  guideImage: "",
   selectedImage: "",
   audioList: [],
   creatorList: [],
   textList: [],
   guideFile: "",
   isLoading: false,
+  orderNumber: 0,
 };
 
 export const guideReducer = (state = initialState, action) => {

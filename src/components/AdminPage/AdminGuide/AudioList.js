@@ -3,17 +3,34 @@ import { AvFeedback, AvGroup } from "availity-reactstrap-validation";
 import { useState } from "react";
 import { connect } from "react-redux";
 import { Button } from "reactstrap";
-import { updateState } from "../../../redux/actions/guideAction";
+import { updateState, saveAudio } from "../../../redux/actions/guideAction";
 import { UploadOutlined } from "@ant-design/icons";
 
-const AudioList = ({ num, updateState, value, selectedGuide, audioList }) => {
+const AudioList = ({
+  num,
+  updateState,
+  saveAudio,
+  value,
+  selectedGuide,
+  audioList,
+  orderNumber,
+}) => {
   const [audioItem, setAudioItem] = useState(value);
   const handleAudioItemName = (e) => {
-    setAudioItem({ ...audioItem, title: e.target.value });
+    setAudioItem({
+      ...audioItem,
+      title: e.target.value,
+      orderNumber: orderNumber,
+    });
   };
   const submitAudio = (info) => {
-    setAudioItem({ ...audioItem, audioFiles: info.fileList });
+    setAudioItem({
+      ...audioItem,
+      audioFiles: info.fileList,
+      orderNumber: orderNumber,
+    });
     console.log(info);
+    saveAudio(info.fileList);
   };
   const dummyRequest = ({ file, onSuccess }) => {
     setTimeout(() => {
@@ -67,6 +84,7 @@ const AudioList = ({ num, updateState, value, selectedGuide, audioList }) => {
       </AvGroup>
       <div className="button-box">
         <Button
+          className="btn-success"
           onClick={() => updateState({ audioList: [...audioList, audioItem] })}
         >
           Save
@@ -80,7 +98,8 @@ const mapStateToProps = (state) => {
   return {
     selectedGuide: state.guides.selectedGuide,
     audioList: state.guides.audioList,
+    orderNumber: state.guides.orderNumber,
   };
 };
 
-export default connect(mapStateToProps, { updateState })(AudioList);
+export default connect(mapStateToProps, { updateState, saveAudio })(AudioList);

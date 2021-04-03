@@ -72,6 +72,9 @@ class AdminGuide extends Component {
             imageId: g.guideImage.id || g.selectedGuide.imageId,
             pdfId: g.guideFile.id || g.selectedGuide.pdfId,
             id: g.selectedGuide.id,
+            audioPayloadList: g.audioList,
+            creatorPayloadList: g.creatorList,
+            textContentPayloadList: g.textList,
           })
         : this.props.addGuide({
             ...values,
@@ -79,6 +82,9 @@ class AdminGuide extends Component {
             downloadUrl: g.guideFile.downloadUrl,
             imageId: g.guideImage.id,
             pdfId: g.guideFile.id,
+            audioPayloadList: g.audioList,
+            creatorPayloadList: g.creatorList,
+            textContentPayloadList: g.textList,
           });
     };
     const dummyRequest = ({ file, onSuccess }) => {
@@ -94,9 +100,9 @@ class AdminGuide extends Component {
     return (
       <AdminLayout>
         <div className="adminGuide">
-          <div className="d-flex justify-content-between">
+          <div className="menu-name d-flex justify-content-between">
             <div>
-              <h3>KUTUBXONA</h3>
+              <h3>Qo'llanmalar</h3>
             </div>
             <div>
               <Button
@@ -110,88 +116,90 @@ class AdminGuide extends Component {
               </Button>
             </div>
           </div>
-          <table className="table table-striped table-hover mt-3">
-            <thead>
-              <tr>
-                <th>Rasm</th>
-                <th>Nomi</th>
-                <th>Kategoriya</th>
-                <th>Haqida</th>
-                <th>Kommentariyalar</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {g.guides ? (
-                g.guides.content.map((item) => (
-                  <tr key={item.id}>
-                    <td>
-                      {g.isLoading ? (
-                        <span className="spinner-border spinner-border-sm mr-3"></span>
-                      ) : (
-                        <img
-                          className="bookImg"
-                          src={item.imageUrl}
-                          alt={item.imageUrl}
-                        />
-                      )}
-                    </td>
-                    <td>
-                      <p>{item.title}</p>
-                    </td>
-                    <td>
-                      <p>{item.categoryName}</p>
-                    </td>
-                    <td>
-                      <p>{item.description}</p>
-                    </td>
+          <div className="all-products">
+            <table className="table table-striped table-hover mt-3">
+              <thead>
+                <tr>
+                  <th>Rasm</th>
+                  <th>Nomi</th>
+                  <th>Kategoriya</th>
+                  <th>Haqida</th>
+                  <th>Kommentariyalar</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {g.guides ? (
+                  g.guides.content.map((item) => (
+                    <tr key={item.id}>
+                      <td>
+                        {g.isLoading ? (
+                          <span className="spinner-border spinner-border-sm mr-3"></span>
+                        ) : (
+                          <img
+                            className="bookImg"
+                            src={item.imageUrl}
+                            alt={item.imageUrl}
+                          />
+                        )}
+                      </td>
+                      <td>
+                        <p>{item.title}</p>
+                      </td>
+                      <td>
+                        <p>{item.categoryName}</p>
+                      </td>
+                      <td>
+                        <p>{item.description}</p>
+                      </td>
 
-                    <td>
-                      <p>
-                        <Link
-                          to="/admin/library/one"
-                          type="button"
-                          className="btn btn-primary"
-                        >
-                          Kommentariyalar{" "}
-                          <span className="badge badge-light">4</span>
-                        </Link>
-                      </p>
-                    </td>
-                    <td>
-                      <div className="action">
-                        <button
-                          type="button"
-                          className="btn btn-primary mr-2"
-                          onClick={() => {
-                            this.props.updateState({
-                              selectedGuide: item,
-                              selectedId: item.id,
-                            });
-                            changeModal();
-                          }}
-                        >
-                          <MdEdit />
-                        </button>
-                        <button
-                          type="button"
-                          className="btn btn-danger"
-                          onClick={() => {
-                            this.props.updateState({ selectedGuide: item });
-                            changeDeleteModal();
-                          }}
-                        >
-                          <MdDelete />
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))
-              ) : (
-                <tr></tr>
-              )}
-            </tbody>
-          </table>
+                      <td>
+                        <p>
+                          <Link
+                            to="/admin/library/one"
+                            type="button"
+                            className="btn btn-primary"
+                          >
+                            Kommentariyalar{" "}
+                            <span className="badge badge-light">4</span>
+                          </Link>
+                        </p>
+                      </td>
+                      <td>
+                        <div className="action">
+                          <button
+                            type="button"
+                            className="btn btn-primary mr-2"
+                            onClick={() => {
+                              this.props.updateState({
+                                selectedGuide: item,
+                                selectedId: item.id,
+                              });
+                              changeModal();
+                            }}
+                          >
+                            <MdEdit />
+                          </button>
+                          <button
+                            type="button"
+                            className="btn btn-danger"
+                            onClick={() => {
+                              this.props.updateState({ selectedGuide: item });
+                              changeDeleteModal();
+                            }}
+                          >
+                            <MdDelete />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr></tr>
+                )}
+              </tbody>
+            </table>
+          </div>
           {(g.guides ? g.guides.totalElements <= g.guides.size : true) ? (
             ""
           ) : (
@@ -291,11 +299,26 @@ class AdminGuide extends Component {
                   <AvInput type="textarea" name="about" id="about" required />
                   <AvFeedback>To'ldirilmagan</AvFeedback>
                 </AvGroup>
+                <AvGroup>
+                  <Label>Kategoriyani tanlang</Label>
+                  <AvInput required type="select" name="courseCategoryId">
+                    {this.props.guideCategories.map((item) => (
+                      <option key={item.id} value={item.id}>
+                        {item.name}
+                      </option>
+                    ))}
+                  </AvInput>
+                  <AvFeedback>To'ldirilmagan</AvFeedback>
+                </AvGroup>
+                <hr />
                 <div className="audio-box">
                   <div className="label-box">
-                    <Label htmlFor="term1">Audiolar ro'yxati</Label>
+                    <span>Audiolar ro'yxati</span>
                     <span
                       onClick={() => {
+                        this.props.updateState({
+                          orderNumber: g.orderNumber + 1,
+                        });
                         this.setState({
                           counterAudio: this.state.counterAudio + 1,
                         });
@@ -327,11 +350,15 @@ class AdminGuide extends Component {
                         ))}
                   </div>
                 </div>
+                <hr />
                 <div className="text-box">
                   <div className="label-box">
-                    <Label htmlFor="">Qo'llanma haqidagi malumotlar</Label>
+                    <span>Qo'llanma haqidagi malumotlar</span>
                     <span
                       onClick={() => {
+                        this.props.updateState({
+                          orderNumber: g.orderNumber + 1,
+                        });
                         this.setState({
                           counterText: this.state.counterText + 1,
                         });
@@ -365,22 +392,10 @@ class AdminGuide extends Component {
                         ))}
                   </div>
                 </div>
-
-                <AvField
-                  required
-                  type="select"
-                  name="bookCategoryId"
-                  label="Kategoriyani tanlang"
-                >
-                  {this.props.guideCategories.map((item) => (
-                    <option key={item.id} value={item.id}>
-                      {item.name}
-                    </option>
-                  ))}
-                </AvField>
+                <hr />
                 <div className="creator-box">
                   <div className="label-box">
-                    <Label htmlFor="">Yaratuvchilar ro'yxati</Label>
+                    <span>Yaratuvchilar ro'yxati</span>
                     <span
                       onClick={() => {
                         this.setState({
@@ -406,7 +421,7 @@ class AdminGuide extends Component {
                           <CreatorList
                             num={index}
                             key={index}
-                            value={g.selectedGuide.audioFiles[index]}
+                            value={g.selectedGuide.creatorPayloadList[index]}
                           />
                         ))
                       : this.state.creatorList.map((item, index) => (
@@ -414,10 +429,11 @@ class AdminGuide extends Component {
                         ))}
                   </div>
                 </div>
+                <hr />
                 <AvField
                   name="isFavourite"
                   type="checkbox"
-                  label="IsFavourite"
+                  label="Sevimlimi ?"
                   value={g.isFavourite}
                   onChange={() =>
                     this.props.updateState({
@@ -436,6 +452,7 @@ class AdminGuide extends Component {
                     this.props.updateState({ selectedGuide: null });
                     changeModal();
                   }}
+                  color="danger"
                 >
                   Bekor qilish
                 </Button>
