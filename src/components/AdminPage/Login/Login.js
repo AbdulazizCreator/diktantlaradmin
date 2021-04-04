@@ -12,7 +12,7 @@ const Login = (props) => {
     <div>
       <div className="container">
         <div className="row vh-100 align-items-center">
-          <div className="col-4 offset-4">
+          <div className="col-md-4 offset-md-4">
             <div className="card">
               <div className="card-body">
                 <AvForm onValidSubmit={login}>

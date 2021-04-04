@@ -103,7 +103,9 @@ export class AdminBookCategories extends Component {
                   <td className="comment-box">
                     <p>{item.bookCount}</p>
                   </td>
-                  <td>{item.keywords.join(", ")}</td>
+                  <td>
+                    <p>{item.keywords.join(", ")}</p>
+                  </td>
                   <td>
                     <Link
                       to={"/admin/bookcategory/" + item.name}
