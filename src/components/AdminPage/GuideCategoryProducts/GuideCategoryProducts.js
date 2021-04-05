@@ -13,28 +13,28 @@ import {
 } from "availity-reactstrap-validation";
 import { Link } from "react-router-dom";
 import "antd/dist/antd.css";
-import "./AdminGuide.scss";
+// import "./GuideCategoryProducts.scss";
 import { connect } from "react-redux";
 import { getGuideCategories } from "../../../redux/actions/guideCategoryAction";
 import {
   saveFile,
   addGuide,
   updateState,
-  getGuides,
+  getCategoryGuides,
   deleteGuide,
   editGuide,
 } from "../../../redux/actions/guideAction.js";
 import ReactPaginate from "react-paginate";
 import { MdEdit, MdDelete } from "react-icons/md";
-import AudioList from "./AudioList";
-import CreatorList from "./CreatorList";
-import TextItem from "./TextItem";
+import AudioList from "../AdminGuide/AudioList";
+import CreatorList from "../AdminGuide/CreatorList";
+import TextItem from "../AdminGuide/TextItem";
 // import { CKEditor } from "@ckeditor/ckeditor5-react";
 // import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
-class AdminGuide extends Component {
+class GuideCategoryProducts extends Component {
   componentDidMount() {
-    this.props.getGuides(0, 6);
+    this.props.getCategoryGuides(this.props.match.params.id, 0, 6);
     this.props.getGuideCategories();
   }
   constructor(props) {
@@ -94,7 +94,6 @@ class AdminGuide extends Component {
         onSuccess("ok");
       }, 0);
     };
-
     const changePage = ({ selected }) => {
       this.setState({ pageNumber: selected });
       this.props.getGuides(selected, 6);
@@ -103,27 +102,6 @@ class AdminGuide extends Component {
     return (
       <AdminLayout>
         <div className="adminGuide">
-          <div className="menu-name d-flex justify-content-between">
-            <div>
-              <h3>QO'LLANMALAR</h3>
-            </div>
-            <div>
-              <Button
-                color="success"
-                onClick={() => {
-                  this.props.updateState({ selectedGuide: null, guideAudio: [] });
-                  changeModal();
-                  this.setState({
-                    audioList: [<AudioList num={0} value={{}} />],
-                    creatorList: [<CreatorList num={0} value={{}} />],
-                    textList: [<TextItem num={0} value={{}} />],
-                  });
-                }}
-              >
-                Qo'shish
-              </Button>
-            </div>
-          </div>
           <div className="all-products">
             <table className="table table-striped table-hover mt-3">
               <thead>
@@ -137,8 +115,8 @@ class AdminGuide extends Component {
                 </tr>
               </thead>
               <tbody>
-                {g.guides ? (
-                  g.guides.content.map((item) => (
+                {g.categoryGuides ? (
+                  g.categoryGuides.content.map((item) => (
                     <tr key={item.id}>
                       <td>
                         {g.isLoading ? (
@@ -160,6 +138,7 @@ class AdminGuide extends Component {
                       <td>
                         <p>{item.description}</p>
                       </td>
+
                       <td>
                         <p>
                           <Link
@@ -396,25 +375,18 @@ class AdminGuide extends Component {
                     onClick={() => {
                       this.props.updateState({
                         orderNumber: g.orderNumber + 1,
-                        guideAudio: [],
                       });
                       this.setState({
                         counterAudio: this.state.counterAudio + 1,
                       });
-                      // const audioList = this.state.audioList;
-                      // audioList.splice(
-                      //   0,
-                      //   0,
-                      //   <AudioList num={this.state.counterAudio} value={{}} />
-                      // );
+                      const audioList = this.state.audioList;
+                      audioList.splice(
+                        0,
+                        0,
+                        <AudioList num={this.state.counterAudio} value={{}} />
+                      );
                       this.setState({
-                        audioList: [
-                          ...this.state.audioList,
-                          <AudioList
-                            num={this.state.counterAudio}
-                            value={{}}
-                          />,
-                        ],
+                        audioList: audioList,
                       });
                     }}
                   >
@@ -422,7 +394,9 @@ class AdminGuide extends Component {
                   </span>
                 </div>
                 <div className="audioList">
-                  {this.state.audioList.map((item, index) => item)}
+                  {g.selectedGuide
+                    ? this.state.audioList.map((item, index) => item)
+                    : this.state.audioList.map((item, index) => item)}
                 </div>
               </div>
               <hr />
@@ -437,11 +411,14 @@ class AdminGuide extends Component {
                       this.setState({
                         counterText: this.state.counterText + 1,
                       });
+                      const textList = this.state.textList;
+                      textList.splice(
+                        0,
+                        0,
+                        <TextItem num={this.state.counterText} value={{}} />
+                      );
                       this.setState({
-                        textList: [
-                          ...this.state.textList,
-                          <TextItem num={this.state.counterText} value={{}} />,
-                        ],
+                        textList: textList,
                       });
                     }}
                   >
@@ -449,7 +426,9 @@ class AdminGuide extends Component {
                   </span>
                 </div>
                 <div className="textList">
-                  {this.state.textList.map((item, index) => item)}
+                  {g.selectedGuide
+                    ? this.state.textList.map((item, index) => item)
+                    : this.state.textList.map((item, index) => item)}
                 </div>
               </div>
               <hr />
@@ -461,14 +440,17 @@ class AdminGuide extends Component {
                       this.setState({
                         counterCreator: this.state.counterCreator + 1,
                       });
+                      const creatorList = this.state.creatorList;
+                      creatorList.splice(
+                        0,
+                        0,
+                        <CreatorList
+                          num={this.state.counterCreator}
+                          value={{}}
+                        />
+                      );
                       this.setState({
-                        creatorList: [
-                          ...this.state.creatorList,
-                          <CreatorList
-                            num={this.state.counterCreator}
-                            value={{}}
-                          />,
-                        ],
+                        creatorList: creatorList,
                       });
                     }}
                   >
@@ -476,7 +458,9 @@ class AdminGuide extends Component {
                   </span>
                 </div>
                 <div className="creatorList">
-                  {this.state.creatorList.map((item, index) => item)}
+                  {g.selectedGuide
+                    ? this.state.creatorList.map((item, index) => item)
+                    : this.state.creatorList.map((item, index) => item)}
                 </div>
               </div>
               <hr />
@@ -525,9 +509,9 @@ const mapStateToProps = (state) => {
 export default connect(mapStateToProps, {
   saveFile,
   getGuideCategories,
-  getGuides,
+  getCategoryGuides,
   addGuide,
   updateState,
   deleteGuide,
   editGuide,
-})(AdminGuide);
+})(GuideCategoryProducts);

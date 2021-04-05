@@ -16,13 +16,14 @@ const AudioList = ({
   audioList,
   orderNumber,
   saveFile,
+  audioSave,
 }) => {
   const [audioItem, setAudioItem] = useState(value);
   const [buttonOpen, setButtonOpen] = useState(false);
 
   const handleAudioItemName = (e) => {
     setAudioItem({
-      ...audioItem,
+      audioFiles: guideAudio,
       title: e.target.value,
       categoryType: "",
       orderNumber: orderNumber,
@@ -31,21 +32,35 @@ const AudioList = ({
   };
   const submitAudio = (info) => {
     saveFile(info.file.originFileObj, "audio", guideAudio);
+    console.log(guideAudio);
     setAudioItem({
-      ...audioItem,
+      title: audioItem.title,
+      categoryType: "",
       audioFiles: guideAudio,
       orderNumber: orderNumber,
     });
-    console.log(info);
-    saveAudio(info.fileList);
     setButtonOpen(false);
   };
+  audioItem.audioFiles !== guideAudio &&
+    selectedGuide === null &&
+    setAudioItem({
+      title: audioItem.title,
+      categoryType: "",
+      audioFiles: guideAudio,
+      orderNumber: orderNumber,
+    });
   const dummyRequest = ({ file, onSuccess }) => {
     setTimeout(() => {
       onSuccess("ok");
     }, 0);
   };
+  
   console.log(audioItem);
+  console.log(Object.keys(audioItem).length);
+  Object.keys(audioItem).length === 7
+    ? console.log(audioItem.audioFiles)
+    : console.log("");
+
   return (
     <div className="audioItem">
       <div className="form-group">
@@ -65,16 +80,17 @@ const AudioList = ({
           <Upload
             customRequest={dummyRequest}
             required={true}
-            ItemType="picture"
+            listType="picture"
             onChange={submitAudio}
             defaultFileList={
-              Object.keys(audioItem).length === 4
-                ? [
-                    audioItem.audioFiles.map((item) => ({
+              audioItem.audioFiles !== [] && audioItem.audioFiles !== undefined
+                ? audioItem.audioFiles.map((item, index) => {
+                    return {
+                      uid: index,
                       url: item.downloadUrl,
                       thumbUrl: item.downloadUrl,
-                    })),
-                  ]
+                    };
+                  })
                 : []
             }
             accept=".wav, .mp3"
@@ -90,7 +106,9 @@ const AudioList = ({
           className="btn-success"
           disabled={buttonOpen}
           onClick={() => {
-            updateState({ audioList: [...audioList, audioItem] });
+            let audioList2 = audioList;
+            audioList2[num] = audioItem;
+            updateState({ audioList: audioList2 });
             setButtonOpen(true);
           }}
         >
@@ -107,6 +125,7 @@ const mapStateToProps = (state) => {
     audioList: state.guides.audioList,
     orderNumber: state.guides.orderNumber,
     guideAudio: state.guides.guideAudio,
+    audioSave: state.guides.audioSave,
   };
 };
 

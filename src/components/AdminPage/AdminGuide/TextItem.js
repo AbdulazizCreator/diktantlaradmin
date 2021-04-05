@@ -51,7 +51,9 @@ const TextItem = ({
         <Button
           disabled={buttonOpen}
           onClick={() => {
-            updateState({ textList: [...textList, textItem] });
+            let textList2 = textList;
+            textList2[num] = textItem;
+            updateState({ textList: textList2 });
             setButtonOpen(true);
           }}
           type="button"

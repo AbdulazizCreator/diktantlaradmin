@@ -42,7 +42,10 @@ export class AdminBookCategories extends Component {
     const saveBookCategory = (e) => {
       e.preventDefault();
       bk.selectedBookCategory
-        ? this.props.editBookCategory(bk.selectedId, this.state.category)
+        ? this.props.editBookCategory(bk.selectedId, {
+            ...this.state.category,
+            id: bk.selectedId,
+          })
         : this.props.addBookCategory(this.state.category);
     };
     const handleKeywords = (e) => {
@@ -58,7 +61,7 @@ export class AdminBookCategories extends Component {
         category: { ...this.state.category, name: e.target.value },
       });
     };
-    console.log(this.state.category);
+    console.log(this.state);
     return (
       <AdminLayout>
         <div className="adminBookCategories ">
@@ -77,6 +80,7 @@ export class AdminBookCategories extends Component {
                     },
                     keywords: "",
                   });
+                  this.props.updateState({ selectedBookCategory: null });
                   changeModal();
                 }}
               >
@@ -129,6 +133,7 @@ export class AdminBookCategories extends Component {
                               name: item.name,
                               keywords: item.keywords,
                             },
+                            keywords: item.keywords.join(" "),
                           });
                           changeModal();
                         }}

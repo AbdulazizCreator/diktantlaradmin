@@ -26,8 +26,13 @@ export function saveFile(data, check, guideAudio) {
       if (res.status === 200) {
         if (check === "image") dispatch(updateState({ guideImage: res.data }));
         if (check === "file") dispatch(updateState({ guideFile: res.data }));
-        if (check === "audio") dispatch(updateState({ guideAudio: [...guideAudio, res.data] }));
-        console.log(res.data);
+        if (check === "audio")
+          dispatch(
+            updateState({
+              guideAudio: [...guideAudio, res.data],
+              audioSave: true,
+            })
+          );
       } else {
         toast.error("Xatolik");
       }

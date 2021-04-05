@@ -37,10 +37,10 @@ class AdminDictants extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      chorak1: [<Term termNum={1} num={1} />],
-      chorak2: [<Term termNum={2} num={1} />],
-      chorak3: [<Term termNum={3} num={1} />],
-      chorak4: [<Term termNum={4} num={1} />],
+      chorak1: [<Term termNum={1} num={1} value={{}} />],
+      chorak2: [<Term termNum={2} num={1} value={{}} />],
+      chorak3: [<Term termNum={3} num={1} value={{}} />],
+      chorak4: [<Term termNum={4} num={1} value={{}} />],
       counter1: 2,
       counter2: 2,
       counter3: 2,
@@ -67,7 +67,19 @@ class AdminDictants extends Component {
     };
     const saveDictant = (event, values) => {
       d.selectedDictant
-        ? this.props.editDictant(d.selectedDictant, values)
+        ? this.props.editDictant(d.selectedDictant, {
+            ...values,
+            imageUrl: d.dictantImage.downloadUrl || d.selectedDictant.imageUrl,
+            downloadUrl:
+              d.dictantFile.downloadUrl || d.selectedDictant.downloadUrl,
+            imageId: d.dictantImage.id || d.selectedDictant.imageId,
+            pdfId: d.dictantFile.id || d.selectedDictant.pdfId,
+            id: d.selectedDictant.id,
+            term1: d.term1,
+            term2: d.term2,
+            term3: d.term3,
+            term4: d.term4,
+          })
         : this.props.addDictant({
             ...values,
             imageUrl: d.dictantImage.downloadUrl,
@@ -137,6 +149,20 @@ class AdminDictants extends Component {
                               selectedDictant: item,
                             });
                             changeModal();
+                            this.setState({
+                              chorak1: item.term1.map((item, index) => (
+                                <Term termNum={1} num={index} value={item} />
+                              )),
+                              chorak2: item.term2.map((item, index) => (
+                                <Term termNum={2} num={index} value={item} />
+                              )),
+                              chorak3: item.term3.map((item, index) => (
+                                <Term termNum={3} num={index} value={item} />
+                              )),
+                              chorak4: item.term4.map((item, index) => (
+                                <Term termNum={4} num={index} value={item} />
+                              )),
+                            });
                           }}
                         >
                           <MdEdit />
@@ -264,7 +290,11 @@ class AdminDictants extends Component {
                         this.setState({
                           chorak1: [
                             ...this.state.chorak1,
-                            <Term termNum={1} num={this.state.counter1} />,
+                            <Term
+                              termNum={1}
+                              num={this.state.counter1}
+                              value={{}}
+                            />,
                           ],
                         });
                       }}
@@ -273,9 +303,9 @@ class AdminDictants extends Component {
                     </span>
                   </div>
                   <div className="term1">
-                    {this.state.chorak1.map((item, index) => (
-                      <Term termNum={1} num={index} key={index} />
-                    ))}
+                    {d.selectedDictant
+                      ? this.state.chorak1.map((item, index) => item)
+                      : this.state.chorak1.map((item, index) => item)}
                   </div>
                 </div>
                 <div className="chorak2">
@@ -296,9 +326,9 @@ class AdminDictants extends Component {
                     </span>
                   </div>
                   <div className="term2">
-                    {this.state.chorak2.map((item, index) => (
-                      <Term termNum={2} num={index} key={index} />
-                    ))}
+                    {d.selectedDictant
+                      ? this.state.chorak2.map((item, index) => item)
+                      : this.state.chorak2.map((item, index) => item)}
                   </div>
                 </div>
                 <div className="chorak3">
@@ -319,9 +349,9 @@ class AdminDictants extends Component {
                     </span>
                   </div>
                   <div className="term3">
-                    {this.state.chorak3.map((item, index) => (
-                      <Term termNum={3} num={index} key={index} />
-                    ))}
+                    {d.selectedDictant
+                      ? this.state.chorak3.map((item, index) => item)
+                      : this.state.chorak3.map((item, index) => item)}
                   </div>
                 </div>
                 <div className="chorak4">
@@ -342,9 +372,9 @@ class AdminDictants extends Component {
                     </span>
                   </div>
                   <div className="term4">
-                    {this.state.chorak4.map((item, index) => (
-                      <Term termNum={4} num={index} key={index} />
-                    ))}
+                    {d.selectedDictant
+                      ? this.state.chorak4.map((item, index) => item)
+                      : this.state.chorak4.map((item, index) => item)}
                   </div>
                 </div>
                 <AvField
@@ -375,7 +405,19 @@ class AdminDictants extends Component {
                 <Button type="submit" color="success">
                   Saqlash
                 </Button>
-                <Button type="button" onClick={changeModal} color="danger">
+                <Button
+                  type="button"
+                  onClick={() => {
+                    changeModal();
+                    this.setState({
+                      chorak1: [<Term termNum={1} num={1} value={{}} />],
+                      chorak2: [<Term termNum={2} num={1} value={{}} />],
+                      chorak3: [<Term termNum={3} num={1} value={{}} />],
+                      chorak4: [<Term termNum={4} num={1} value={{}} />],
+                    });
+                  }}
+                  color="danger"
+                >
                   Bekor qilish
                 </Button>
               </ModalFooter>

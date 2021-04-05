@@ -17,6 +17,7 @@ const initialState = {
   guideAudio: [],
   isLoading: false,
   orderNumber: 0,
+  audioSave: false,
 };
 
 export const guideReducer = (state = initialState, action) => {

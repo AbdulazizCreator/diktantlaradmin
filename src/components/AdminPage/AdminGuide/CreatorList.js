@@ -96,7 +96,9 @@ const CreatorList = ({
           className="btn-success"
           disabled={buttonOpen}
           onClick={() => {
-            updateState({ creatorList: [...creatorList, creatorItem] });
+            let creatorList2 = creatorList;
+            creatorList2[num] = creatorItem;
+            updateState({ creatorList: creatorList2 });
             setButtonOpen(true);
           }}
           type="button"

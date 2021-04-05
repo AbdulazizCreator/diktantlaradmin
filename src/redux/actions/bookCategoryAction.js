@@ -75,6 +75,7 @@ export function deleteBookCategory(id) {
 
 export const editBookCategory = (id, data) => {
   return (dispatch) => {
+    console.log(data);
     axios({
       url: API_PATH + "admin/book/category/edit/" + id,
       method: "put",

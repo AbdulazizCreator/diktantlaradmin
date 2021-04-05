@@ -196,20 +196,7 @@ class AdminDictants extends Component {
                               this.props.updateState({
                                 selectedDictant: item,
                               });
-                              this.setState({
-                                chorak1: item.term1.map((item, index) => (
-                                  <Term termNum={1} num={index} value={item} />
-                                )),
-                                chorak2: item.term2.map((item, index) => (
-                                  <Term termNum={2} num={index} value={item} />
-                                )),
-                                chorak3: item.term3.map((item, index) => (
-                                  <Term termNum={3} num={index} value={item} />
-                                )),
-                                chorak4: item.term4.map((item, index) => (
-                                  <Term termNum={4} num={index} value={item} />
-                                )),
-                              });
+
                               changeModal();
                             }}
                           >

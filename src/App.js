@@ -11,6 +11,7 @@ import AdminLibrary from "./components/AdminPage/AdminLibrary/AdminLibrary";
 import BookComments from "./components/AdminPage/AdminLibrary/BookComments";
 import BookCategoryProducts from "./components/AdminPage/BookCategoryProducts/BookCategoryProducts";
 import DictantCategoryProducts from "./components/AdminPage/DictantCategoryProducts/DictantCategoryProducts";
+import GuideCategoryProducts from "./components/AdminPage/GuideCategoryProducts/GuideCategoryProducts";
 import Login from "./components/AdminPage/Login/Login";
 import Notfound from "./components/Notfound";
 import { TOKEN_PATH } from "./tools/constants";
@@ -55,6 +56,11 @@ const App = () => {
               exact
               path="/admin/guidecategory"
               component={AdminGuideCategories}
+            />
+            <Route
+              exact
+              path="/admin/guidecategory/:id"
+              component={GuideCategoryProducts}
             />
             <Route exact path="/admin-login" component={Login} />
             <Route exact component={Notfound} />
